@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { Wrapper } from "./Navbar-style";
+import { useNavigate } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
 import LoginIcon from "@mui/icons-material/Login";
@@ -19,6 +20,8 @@ import LoginIcon from "@mui/icons-material/Login";
 const logged = true;
 
 const Navbar = () => {
+const navigate= useNavigate()
+
   return (
     <Box
       sx={{
@@ -47,22 +50,19 @@ const Navbar = () => {
         autoComplete="off"
         fullWidth
       />
-      <IconButton sx={{margin: '0 5px'}}>
-        <SearchIcon sx={{ color: "white" }} />
-      </IconButton>
+    
       <Stack
         direction="row"
         spacing={1}
         alignItems="center"
         
       >
-        <Button variant="text" sx={{ color: "white" }}>
-          Shop
-        </Button>
-        <Button variant="text" sx={{ color: "white" }}>
+          <Button onClick={()=>navigate('/')} variant="text" sx={{ color: "white",marginLeft: '5px' }}>
+            Shop
+          </Button>
+        <Button variant="text" sx={{ color: "white" }} onClick={()=>navigate('/contact')}>
           Contact
         </Button>
-
         <IconButton>
           {logged && <Avatar />}
           {!logged && (
@@ -82,9 +82,9 @@ const Navbar = () => {
           )}
         </IconButton>
         <Box>
-          <IconButton size="large">
+          <IconButton size="large" onClick={()=>navigate('/summary')}>
             <Badge badgeContent={1} color="primary">
-              <ShoppingCartIcon />
+              <ShoppingCartIcon sx={{color: 'white'}}/>
             </Badge>
           </IconButton>
         </Box>

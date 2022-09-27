@@ -1,6 +1,6 @@
 import { Container, Grid, Paper, Stack, Button,CardActionArea,Typography } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 const items = [
   {
@@ -36,13 +36,14 @@ const items = [
 ];
 
 const Products = () => {
+  const navigate= useNavigate()
   return (
     <Container sx={{marginTop: '50px'}}>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} rowSpacing={4}>
         {items.map((item) => 
         <Grid key={item.id} item xs={12} sm={12} md={6} lg={4}sx={{display: 'flex', justifyContent: 'center'}}>
           
-          <CardActionArea sx={{width: 350}}>
+          <CardActionArea sx={{width: 350}} onClick={()=>navigate('/product/s')}>
             <Paper
               sx={{
                 p: 1,
