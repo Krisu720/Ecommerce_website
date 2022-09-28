@@ -17,7 +17,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
 import LoginIcon from "@mui/icons-material/Login";
 
-const logged = true;
+const logged = false;
 
 const Navbar = () => {
 const navigate= useNavigate()
@@ -68,12 +68,13 @@ const navigate= useNavigate()
           {!logged && (
             <>
               {" "}
-              <LoginIcon />{" "}
+              <LoginIcon sx={{ color: "white" }} />{" "}
               <Typography
                 sx={{
                   fontSize: "20px",
                   textTransform: "uppercase",
                   marginLeft: "5px",
+                  color: "white"
                 }}
               >
                 Log in
