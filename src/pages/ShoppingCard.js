@@ -1,13 +1,13 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import ShoppingCart from '../components/ShoppingCart'
+import Navbar from '../components/Navbar/Navbar'
+import ShoppingCart from '../components/ShoppingCart/ShoppingCart'
 
 const ShoppingCard = () => {
   return (
-    <div>
+    <>
         <Navbar/>
         <ShoppingCart/>
-    </div>
+    </>
   )
 }
 

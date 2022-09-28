@@ -27,7 +27,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
     <Routes>
-      {/* <Route path="/" element={<Product/>}/> */}
       <Route path="/" element={<MainPage/>}/>
       <Route path="/product/:id" element={<Product/>}/>
       <Route path="/summary" element={<ShoppingCard/>}/>

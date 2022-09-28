@@ -14,12 +14,25 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 const ProductComponent = () => {
+
+  const data = {
+      name: 'Buty nike air force',
+      sizes: ['xs','m',"l",'xl'],
+      price: 219.99,
+      deliveryInfo: '2-7 dni roboczych',
+      sexInfo: 'male',
+      colorInfo: 'black',
+      materialInfo: '100% bawełna'
+
+
+  }
+
   const [productInfo, setProductInfo] = useState({
     size: "",
     quantity: 1,
   });
 
-  console.log(productInfo);
+  console.log(productInfo)
   return (
     <Container sx={{ marginTop: "35px" }}>
       <Grid container rowSpacing={4}>
@@ -36,12 +49,12 @@ const ProductComponent = () => {
         <Grid item md={6} xs={12}>
           <Paper sx={{ p: 1, height: "670px", paddingLeft: "15px" }}>
             <Typography variant="h2" sx={{ margin: "20px 0" }}>
-              Buty nike air force
+              {data.name}
             </Typography>
             <Typography variant="h3" sx={{ margin: "20px 0" }}>
-              219,99 PLN
+              {data.price} PLN
             </Typography>
-            <Stack spacing={3} sx={{ marginTop: "20px" }}>
+            <Stack spacing={3} sx={{ marginTop: "20px",}}>
               <Stack direction="row" alignItems="center" spacing={1}>
                 <IconButton
                   size="small"
@@ -83,18 +96,19 @@ const ProductComponent = () => {
                 }
                 select
               >
-                <MenuItem value="xs">XS</MenuItem>
-                <MenuItem value="s">S</MenuItem>
-                <MenuItem value="m">M</MenuItem>
-                <MenuItem value="l">L</MenuItem>
-                <MenuItem value="xl">XL</MenuItem>
+                {data.sizes.filter(size=> size==="xs") == 'xs' && <MenuItem value="xs">XS</MenuItem>}
+                {data.sizes.filter(size=> size==="s") == 's' && <MenuItem value="s">S</MenuItem>}
+                {data.sizes.filter(size=> size==="m") == 'm' && <MenuItem value="m">M</MenuItem>}
+                {data.sizes.filter(size=> size==="l") == 'l' && <MenuItem value="l">L</MenuItem>}
+                {data.sizes.filter(size=> size==="xl") == 'xl' && <MenuItem value="xl">XL</MenuItem>}
               </TextField>
 
               <Stack spacing={1}>
-                <Typography>Dostawa 2-7 dni roboczych</Typography>
-                <Typography>Skład: 100% bawełna</Typography>
-                <Typography>Kolor: Czarny</Typography>
-                <Typography>Płeć: Mężczyzna</Typography>
+                <Typography sx={{fontWeight: 600}}>Opis:</Typography>
+                <Typography>Dostawa: {data.deliveryInfo}</Typography>
+                <Typography>Skład: {data.materialInfo}</Typography>
+                <Typography>Kolor: {data.colorInfo}</Typography>
+                <Typography>Płeć: {data.sexInfo}</Typography>
               </Stack>
               <Button variant="contained">Dodaj do koszyka</Button>
             </Stack>
