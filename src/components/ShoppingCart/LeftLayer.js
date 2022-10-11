@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
-  CardActionArea,
   Grid,
   Paper,
   Stack,
@@ -10,78 +9,75 @@ import {
 } from "@mui/material";
 import MiniPaymentComponent from "./MiniPaymentComponent";
 import MiniShippingComponent from "./MiniShippingComponent";
-const data = [
-  {
-    id: 1,
-    img: "karta.jpg",
-    name: "Karta Visa",
-    method: "visa",
-  },
-  {
-    id: 2,
-    img: "przelewy24.png",
-    name: "Przelewy24",
-    method: "przelewy24",
-  },
-];
-
-const data2 = [
-  {
-    id: 1,
-    img: "inpost.png",
-    name: "Paczkomat Inpost",
-    price: 9.99,
-    method: "paczkomat",
-  },
-  {
-    id: 2,
-    img: "pocztex.jpg",
-    name: "Pocztex żabka",
-    price: 7.89,
-    method: "pocztex",
-  },
-  {
-    id: 3,
-    img: "dpd.jpg",
-    name: "DPD Kurier",
-    price: 12.00,
-    method: "dpd",
-  },
-];
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { addInfo } from "../../redux/cartRedux";
 
 const LeftLayer = () => {
+  const getredux = useSelector((state)=> state.cart)
+  const dispatch = useDispatch()
+  const [info, setInfo] = useState({
+      email: '',
+      phone_number: 0,
+      name: '',
+      surname: '',
+      address: '',
+      City: '',
+      zipCode: 0,
+  })
+
+  console.log(getredux)
+
+  const [fetch, setFetch] = useState()
+  useEffect(() => {
+    axios.get('http://localhost:3001/methods').then(data => setFetch(data.data))
+
+   }, [])
+
+
+
+   const handleChange = (e) => {
+    
+    dispatch(addInfo({
+      [e.target.name]: e.target.value 
+    }))
+   }
+
   return (
     <Paper sx={{ width: "100%", minHeight: "400px" }}>
       <Stack sx={{ p: 5 }} spacing={2}>
         <Typography>Metoda płatności:</Typography>
         <Stack>
           <Grid container spacing={1}>
-            {data.map((item) => (
-              <MiniPaymentComponent key={item.id} cardDetails={item} />
-            ))}
+            {fetch && fetch.map((item) => (
+                item.type == "pay" ? <MiniPaymentComponent key={item._id} cardDetails={item} /> : ""
+                
+          ))}
           </Grid>
         </Stack>
         <Typography>Dostawa:</Typography>
         <Stack>
           <Grid container spacing={1}>
-            {data2.map((item) => <MiniShippingComponent key={item.id} cardDetails={item}/>)}
+          {fetch && fetch.map((item) => (
+                item.type == "deliver" ? <MiniShippingComponent key={item._id} cardDetails={item} /> : ""
+            ))}
           </Grid>
         </Stack>
         <Typography>Dane odbiorcy:</Typography>
         <Stack direction="row" justifyContent="center" spacing={2}>
-          <TextField label="Email" />
-          <TextField label="nr telefonu" />
+          <TextField label="Email" name="email" onChange={(e)=>handleChange(e)}/>
+          <TextField label="Numer telefonu" name="phone_number" onChange={(e)=>handleChange(e)}/>
         </Stack>
         <Stack direction="row" justifyContent="center" spacing={2}>
-          <TextField label="Imie" />
-          <TextField label="Nazwisko" />
+          <TextField label="Imie" name="name" onChange={(e)=>handleChange(e)}/>
+          <TextField label="Nazwisko" name="surname" onChange={(e)=>handleChange(e)}/>
         </Stack>
         <Stack direction="row" justifyContent="center" spacing={2}>
-          <TextField label="Ulica i nr budynku" />
-          <TextField label="Miasto" />
+          <TextField label="Ulica i nr budynku" name="address" onChange={(e)=>handleChange(e)}/>
+          <TextField label="Miasto" name="city" onChange={(e)=>handleChange(e)}/>
         </Stack>
         <Stack direction="row" justifyContent="center">
-          <TextField label="kod pocztowy" />
+          <TextField label="Kod pocztowy" name="zipCode" onChange={(e)=>handleChange(e)}/>
         </Stack>
       </Stack>
     </Paper>

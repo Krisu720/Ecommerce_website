@@ -13,12 +13,13 @@ import { carticon, contactbutton, logintext, logotypography, navbarbox, searchin
 import { useNavigate } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
+import { useSelector } from "react-redux";
 
-const logged = false;
+const logged = true;
 
 const Navbar = () => {
   const navigate = useNavigate();
-
+  const items = useSelector((state) => state.cart)
   return (
     <Box sx={navbarbox}>
       <Typography sx={logotypography}>LOGO</Typography>
@@ -59,7 +60,7 @@ const Navbar = () => {
         </IconButton>
         <Box>
           <IconButton size="large" onClick={() => navigate("/summary")}>
-            <Badge badgeContent={1} color="primary">
+            <Badge badgeContent={items.quantity} color="primary">
               <ShoppingCartIcon sx={carticon} />
             </Badge>
           </IconButton>

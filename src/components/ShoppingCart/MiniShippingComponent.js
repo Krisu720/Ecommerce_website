@@ -6,17 +6,30 @@ import {
     Stack,
     Typography,
   } from "@mui/material";
-
+  import { useDispatch, useSelector } from "react-redux";
+  import { addDelivery } from "../../redux/cartRedux";
 const MiniShippingComponent = ({cardDetails}) => {
+  const dispatch = useDispatch();
+  const items = useSelector((state) => state.cart)
+
+
+  const handleAdd = () => {
+    dispatch(
+      addDelivery({
+        delivery: cardDetails.method,
+        price: cardDetails.price,
+      })
+    );
+  };
   return (
      <Grid item xs={12} lg={6}>
-              <CardActionArea>
+              <CardActionArea onClick={()=>handleAdd()}>
                 <Paper
                   sx={{
                     p: 1,
                     display: "flex",
                     justifyContent: "space-between",
-                    bgcolor: "lightgreen",
+                    bgcolor: cardDetails.method===items.delivery.name ? "lightgreen" : "transparent"
                   }}
                 >
                   <img src={cardDetails.img} height="65px" />

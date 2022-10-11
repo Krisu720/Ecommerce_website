@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Box,
@@ -10,19 +10,29 @@ import {
   Typography,
 } from "@mui/material";
 import MiniCardComponent from "./MiniCartComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { addInfo, addPromocode } from "../../redux/cartRedux";
+import InfoIcon from "@mui/icons-material/Info";
 
-const data = [
-  {
-    id: 1,
-    amount: 2,
-    name: "Nike air force",
-    size: "EU 36 -- 4 US",
-    price: 500.0,
-    img: "buty.jpg",
-  },
-];
+const RightLayer = ({ items }) => {
+  const ship = items.delivery.name !== "" ? true : false;
+  const promo = items.promocode.price !== 0 ? true : false;
+  const cardd = useSelector((state)=>state.cart)
+  const dispatch = useDispatch();
+  const [code, setCode] = useState("");
+  function useCode() {
+    dispatch(
+      addPromocode({
+        name: code,
+      })
+    );
+  }
 
-const RightLayer = () => {
+
+  const sendInfo= () => {
+   console.log(cardd)
+  }
+
   return (
     <Paper sx={{ width: "100%", height: "100%" }}>
       <Box
@@ -33,14 +43,44 @@ const RightLayer = () => {
         }}
       >
         <Stack sx={{ padding: 3, flexGrow: 1 }} spacing={3}>
-          {data.map((card) => (
-            <MiniCardComponent key={card.id} cardDetails={card} />
-          ))}
+          {items.products.length !== 0 ? (
+            items.products.map((card, index) => (
+              <MiniCardComponent key={index} cardDetails={card} />
+            ))
+          ) : (
+            <Stack
+              sx={{ height: "100%" }}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Typography sx={{ color: "gray", fontSize: "30px" }}>
+                Koszyk Pusty
+              </Typography>
+            </Stack>
+          )}
         </Stack>
         <Stack sx={{ padding: 3 }} spacing={3}>
+          <Stack
+            justifyContent="center"
+            spacing={1}
+            direction="row"
+            alignItems="center"
+          >
+            <InfoIcon sx={{ color: "gray" }} />
+            <Typography sx={{ color: "gray" }} variant="body2">
+              Kliknij na zdjęcie produktu aby go usunąć z koszyka.
+            </Typography>
+          </Stack>
+          <Divider />
           <Stack justifyContent="center" spacing={4} direction="row">
-            <TextField label="Promocode" />
-            <Button variant="contained">Use</Button>
+            <TextField
+              label="Kod promocyjny"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+            />
+            <Button variant="contained" onClick={useCode}>
+              Użyj
+            </Button>
           </Stack>
           <Divider />
           <Stack justifyContent="space-between" direction="row">
@@ -48,39 +88,50 @@ const RightLayer = () => {
               Subtotal
             </Typography>
             <Typography variant="body2" sx={{ fontWeight: "600" }}>
-              500,00 PLN
+              {items.total} PLN
             </Typography>
           </Stack>
-          <Stack justifyContent="space-between" direction="row">
-            <Typography variant="body2" sx={{ color: "gray" }}>
-              Shipping
-            </Typography>
-            <Typography variant="body2" sx={{ fontWeight: "600" }}>
-              10,00 PLN
-            </Typography>
-          </Stack>
-          <Stack justifyContent="space-between" direction="row">
-            <Typography variant="body2" color="success.main">
-              Promocode: Free shipping
-            </Typography>
-            <Typography
-              variant="body2"
-              color="success.main"
-              sx={{ fontWeight: "600" }}
-            >
-              - 10,00 PLN
-            </Typography>
-          </Stack>
+          {ship && (
+            <Stack justifyContent="space-between" direction="row">
+              <Typography variant="body2" sx={{ color: "gray" }}>
+                Shipping
+              </Typography>
+              <Typography variant="body2" sx={{ fontWeight: "600" }}>
+                {items.delivery.price} PLN
+              </Typography>
+            </Stack>
+          )}
+          {promo && (
+            <Stack justifyContent="space-between" direction="row">
+              <Typography variant="body2" color="success.main">
+                Promocode: {items.promocode.name}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="success.main"
+                sx={{ fontWeight: "600" }}
+              >
+                {items.promocode.price} PLN
+              </Typography>
+            </Stack>
+          )}
           <Divider />
           <Stack justifyContent="space-between" direction="row">
             <Typography variant="h6" sx={{ fontWeight: "800" }}>
               Total:{" "}
             </Typography>
             <Typography variant="h6" sx={{ fontWeight: "800" }}>
-              510,00 PLN
+              {Math.round(
+                (Math.round(items.total * 100) / 100 +
+                  Math.round(items.delivery.price * 100) / 100) *
+                  100
+              ) /
+                100 +
+                items.promocode.price}{" "}
+              PLN
             </Typography>
           </Stack>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={sendInfo}>
             Place Order
           </Button>
         </Stack>

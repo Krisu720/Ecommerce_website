@@ -18,6 +18,7 @@ const logotypography = {
 
 const searchtextfield = {
   margin: " 0px 70px",
+  maxWidth: "400px",
   display: { xs: "none", md: "block" },
 };
 
