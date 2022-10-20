@@ -30,7 +30,7 @@ const LeftLayer = () => {
 
   const [fetch, setFetch] = useState()
   useEffect(() => {
-    axios.get('http://localhost:3001/methods').then(data => setFetch(data.data))
+    axios.get('http://localhost:3001/api/methods').then(data => setFetch(data.data))
 
    }, [])
 

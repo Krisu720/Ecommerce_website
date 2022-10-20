@@ -15,21 +15,26 @@ import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/cartRedux";
 import { SettingsPowerRounded } from "@mui/icons-material";
+import { publicRequest } from "../../requests";
 const ProductComponent = () => {
   const [fetchData, setFetchData] = useState();
   const [toast, setToast] = useState(false);
   const [error, setError] = useState(false)
+
+
   const parameter = useParams();
   const dispatch = useDispatch();
+
+
   useEffect(() => {
-    axios
-      .get(`http://localhost:3001/products/${parameter.id}`)
+    publicRequest
+      .get(`/products/find/${parameter.id}`)
       .then((data) => setFetchData(data.data));
   }, []);
+
 
   const setNumber = (dir) => {
     if (dir == "remove") {

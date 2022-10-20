@@ -1,6 +1,7 @@
 import { CircularProgress, Container, Grid,  } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { publicRequest } from "../../requests";
 import ProductCard from "./ProductCard";
 
 
@@ -8,7 +9,7 @@ const Products = () => {
   
   const [fetchData, setFetchData] = useState()
   useEffect(() => {
-    axios.get('http://localhost:3001/products/').then(data=>setFetchData(data.data))
+    publicRequest.get('/products/').then(data=>setFetchData(data.data))
   }, [])
   
 

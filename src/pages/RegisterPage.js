@@ -5,6 +5,7 @@ import RegisterComponent from '../components/RegisterComponent/RegisterComponent
 const RegisterPage = () => {
   return (
     <>
+        <Navbar/>
         <RegisterComponent/>
     </>
   )

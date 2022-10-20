@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import axios from 'axios'
 import {
   Box,
   Button,
@@ -15,6 +15,7 @@ import { addInfo, addPromocode } from "../../redux/cartRedux";
 import InfoIcon from "@mui/icons-material/Info";
 
 const RightLayer = ({ items }) => {
+  const getredux = useSelector((state)=> state.cart)
   const ship = items.delivery.name !== "" ? true : false;
   const promo = items.promocode.price !== 0 ? true : false;
   const cardd = useSelector((state)=>state.cart)
@@ -28,9 +29,12 @@ const RightLayer = ({ items }) => {
     );
   }
 
+ 
 
-  const sendInfo= () => {
-   console.log(cardd)
+function sendInfo() {
+    console.log(getredux.info.email)
+   axios.post('http://localhost:3001/api/stripe/payment',{email: getredux.info.email}).then(data=>window.location.href = data.data)
+   
   }
 
   return (

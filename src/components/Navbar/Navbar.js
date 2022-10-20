@@ -9,17 +9,27 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { carticon, contactbutton, logintext, logotypography, navbarbox, searchinputprops, searchtextfield, shopbutton } from "./Navbar-style";
+import {
+  carticon,
+  contactbutton,
+  logintext,
+  logotypography,
+  navbarbox,
+  searchinputprops,
+  searchtextfield,
+  shopbutton,
+} from "./Navbar-style";
 import { useNavigate } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
 import { useSelector } from "react-redux";
 
-const logged = true;
+const logged = false;
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const items = useSelector((state) => state.cart)
+  const items = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user);
   return (
     <Box sx={navbarbox}>
       <Typography sx={logotypography}>LOGO</Typography>
@@ -30,11 +40,7 @@ const Navbar = () => {
         sx={searchtextfield}
       />
       <Stack direction="row" spacing={1} alignItems="center">
-        <Button
-          onClick={() => navigate("/")}
-          variant="text"
-          sx={shopbutton}
-        >
+        <Button onClick={() => navigate("/")} variant="text" sx={shopbutton}>
           Shop
         </Button>
         <Button
@@ -44,20 +50,20 @@ const Navbar = () => {
         >
           Contact
         </Button>
-        <IconButton>
-          {logged && <Avatar />}
-          {!logged && (
+        {user ? (
+          <IconButton>
+            <Avatar />
+          </IconButton>
+        ) : (
+          <IconButton onClick={() => navigate("/login")}>
+            (
             <>
               {" "}
               <LoginIcon sx={{ color: "white" }} />{" "}
-              <Typography
-                sx={logintext}
-              >
-                Log in
-              </Typography>{" "}
             </>
-          )}
-        </IconButton>
+            )
+          </IconButton>
+        )}
         <Box>
           <IconButton size="large" onClick={() => navigate("/summary")}>
             <Badge badgeContent={items.quantity} color="primary">
