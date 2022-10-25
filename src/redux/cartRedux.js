@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getProduct } from "./apiCalls";
 
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
     products: [],
-    quantity: 0,
     total: 0,
     method: [],
     delivery: {
@@ -26,29 +26,23 @@ const cartSlice = createSlice({
     },
   },
   reducers: {
-
     addProduct: (state, action) => {
-      state.products.push({
-        id: action.payload.id,
-        name: action.payload.name,
-        img: action.payload.img,
-        price: action.payload.price * action.payload.quantity,
-        size: action.payload.size,
-        amount: action.payload.quantity,
-      });
-      state.quantity = state.products.length;
+      state.products.push(action.payload);
       let totalPrice = 0;
-      state.products.map((item) => (totalPrice += item.price));
+      state.products.map(
+        (item) => (totalPrice += item.productId.price * item.quantity)
+      );
       state.total = totalPrice;
     },
 
     removeProduct: (state, action) => {
       state.products = state.products.filter(
-        (item) => item.id !== action.payload.id
+        (item, index) => index !== action.payload
       );
-      state.quantity = state.products.length;
       let totalPrice = 0;
-      state.products.map((item) => (totalPrice += item.price));
+      state.products.map(
+        (item) => (totalPrice += item.productId.price * item.quantity)
+      );
       state.total = totalPrice;
     },
 
@@ -79,6 +73,15 @@ const cartSlice = createSlice({
         ...action.payload,
       };
     },
+
+    setInfo: (state, action) => {
+      state.products = action.payload.products;
+      let totalPrice = 0;
+      state.products.map(
+        (item) => (totalPrice += item.productId.price * item.quantity)
+      );
+      state.total = totalPrice;
+    },
   },
 });
 
@@ -89,6 +92,7 @@ export const {
   addDelivery,
   addPromocode,
   addInfo,
+  setInfo,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

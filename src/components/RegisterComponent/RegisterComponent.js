@@ -8,6 +8,8 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { publicRequest } from "../../requests";
+import {Link} from 'react-router-dom'
+
 
 const RegisterComponent = () => {
   const [messages, setMessages] = useState("");
@@ -84,6 +86,7 @@ const RegisterComponent = () => {
             Register Account
           </Button>
           <Typography sx={{ color: "red" }}>{messages}</Typography>
+          <Typography>Have an account? <Link to="/login">Log in</Link></Typography>
         </Stack>
       </Paper>
     </Container>

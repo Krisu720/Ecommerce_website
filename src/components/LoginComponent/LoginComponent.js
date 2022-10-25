@@ -12,6 +12,7 @@ import {
   import { login } from "../../redux/apiCalls";
 import {useDispatch, useSelector} from 'react-redux'
 import CircularProgress from "@mui/material/CircularProgress";
+import { Link } from "react-router-dom";
 
   const LoginComponent = () => {
     const user = useSelector((state)=>state.user)
@@ -70,6 +71,7 @@ import CircularProgress from "@mui/material/CircularProgress";
               Zaloguj
             </LoadingButton>
             {user.error != '' && <Typography sx={{ color: "red" }}>Nieprawidłowe dane</Typography>}
+            <Typography>Dont have an account? <Link to="/register">Sing in</Link></Typography>
           </Stack>
         </Paper>
       </Container>

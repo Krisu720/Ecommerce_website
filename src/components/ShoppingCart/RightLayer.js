@@ -18,9 +18,10 @@ const RightLayer = ({ items }) => {
   const getredux = useSelector((state)=> state.cart)
   const ship = items.delivery.name !== "" ? true : false;
   const promo = items.promocode.price !== 0 ? true : false;
-  const cardd = useSelector((state)=>state.cart)
   const dispatch = useDispatch();
   const [code, setCode] = useState("");
+
+ 
   function useCode() {
     dispatch(
       addPromocode({
@@ -29,12 +30,10 @@ const RightLayer = ({ items }) => {
     );
   }
 
- 
+
 
 function sendInfo() {
-    console.log(getredux.info.email)
-   axios.post('http://localhost:3001/api/stripe/payment',{email: getredux.info.email}).then(data=>window.location.href = data.data)
-   
+   axios.post('http://localhost:3001/api/stripe/payment',{...getredux.info,products: getredux.products}).then(data=>window.location.href = data.data)
   }
 
   return (
@@ -49,7 +48,7 @@ function sendInfo() {
         <Stack sx={{ padding: 3, flexGrow: 1 }} spacing={3}>
           {items.products.length !== 0 ? (
             items.products.map((card, index) => (
-              <MiniCardComponent key={index} cardDetails={card} />
+              <MiniCardComponent key={index} cardDetails={card} index={index} />
             ))
           ) : (
             <Stack

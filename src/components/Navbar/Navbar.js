@@ -23,13 +23,15 @@ import { useNavigate } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
 import { useSelector } from "react-redux";
+import { persistor } from "../../redux/store";
 
-const logged = false;
 
 const Navbar = () => {
   const navigate = useNavigate();
   const items = useSelector((state) => state.cart);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.currentUser);
+  let haha = 0;
+  items.products.map((item)=>haha += item.quantity)
   return (
     <Box sx={navbarbox}>
       <Typography sx={logotypography}>LOGO</Typography>
@@ -51,22 +53,22 @@ const Navbar = () => {
           Contact
         </Button>
         {user ? (
-          <IconButton>
+          <IconButton onClick={()=>{persistor.purge();window.location.reload()}}>
             <Avatar />
           </IconButton>
         ) : (
           <IconButton onClick={() => navigate("/login")}>
-            (
+            
             <>
               {" "}
               <LoginIcon sx={{ color: "white" }} />{" "}
             </>
-            )
+            
           </IconButton>
         )}
         <Box>
           <IconButton size="large" onClick={() => navigate("/summary")}>
-            <Badge badgeContent={items.quantity} color="primary">
+            <Badge badgeContent={haha} color="primary">
               <ShoppingCartIcon sx={carticon} />
             </Badge>
           </IconButton>

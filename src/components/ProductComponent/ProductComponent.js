@@ -15,10 +15,11 @@ import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../../redux/cartRedux";
-import { SettingsPowerRounded } from "@mui/icons-material";
+import { AddCardTwoTone, SettingsPowerRounded } from "@mui/icons-material";
 import { publicRequest } from "../../requests";
+import { addCart, getAndAddProduct } from "../../redux/apiCalls";
 const ProductComponent = () => {
   const [fetchData, setFetchData] = useState();
   const [toast, setToast] = useState(false);
@@ -27,8 +28,6 @@ const ProductComponent = () => {
 
   const parameter = useParams();
   const dispatch = useDispatch();
-
-
   useEffect(() => {
     publicRequest
       .get(`/products/find/${parameter.id}`)
@@ -58,17 +57,18 @@ const ProductComponent = () => {
   });
 
 
-  const addToCart = () => {
+  const addToCart =  () => {
     if (productInfo.size !== "") {
-      dispatch(
-        addProduct({
-          ...productInfo,
-          id: fetchData._id,
-          img: fetchData.img,
-          name: fetchData.name,
-          price: fetchData.price,
-        })
-      );
+      // dispatch(
+      //   addProduct({
+      //     ...productInfo,
+      //     id: fetchData._id,
+      //     img: fetchData.img,
+      //     name: fetchData.name,
+      //     price: fetchData.price,
+      //   })
+      // );
+      getAndAddProduct(dispatch,{id: parameter.id,...productInfo})
       setToast(true);
     } else {
       setError(true);

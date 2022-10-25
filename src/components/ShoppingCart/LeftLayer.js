@@ -26,7 +26,6 @@ const LeftLayer = () => {
       zipCode: 0,
   })
 
-  console.log(getredux)
 
   const [fetch, setFetch] = useState()
   useEffect(() => {

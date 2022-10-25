@@ -2,17 +2,19 @@ import {
   Container,
   Grid,
 } from "@mui/material";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import LeftLayer from "./LeftLayer";
 import RightLayer from "./RightLayer";
 
 
 const ShoppingCart = () => {
 
-  
 
+  
+  const dispatch = useDispatch()
   const items = useSelector((state)=>state.cart)
+  
   return (
     <>
       <Container sx={{ marginTop: "35px" }}>
